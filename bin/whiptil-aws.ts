@@ -3,18 +3,35 @@ import * as cdk from 'aws-cdk-lib';
 import { WhiptilAwsStack } from '../lib/whiptil-aws-stack';
 
 const app = new cdk.App();
-new WhiptilAwsStack(app, 'WhiptilAwsStack', {
-  /* If you don't specify 'env', this stack will be environment-agnostic.
-   * Account/Region-dependent features and context lookups will not work,
-   * but a single synthesized template can be deployed anywhere. */
+const prefix = 'Han';
 
-  /* Uncomment the next line to specialize this stack for the AWS Account
-   * and Region that are implied by the current CLI configuration. */
-  // env: { account: process.env.CDK_DEFAULT_ACCOUNT, region: process.env.CDK_DEFAULT_REGION },
+const config = {
+  0:[0,1,2],
+  1:[0],
+  2:[0],
+}
+const client  = [0];
 
-  /* Uncomment the next line if you know exactly what Account and Region you
-   * want to deploy the stack to. */
-  // env: { account: '123456789012', region: 'us-east-1' },
+function convertConfigToHosts(config: any, client: number[]): string[]{
+  const hosts: string[] = [];
+  for (const shard in config){
+    for (const host of config[shard]){
+      hosts.push(`server-${shard}-${host}`);
+    }
+  }
 
-  /* For more information, see https://docs.aws.amazon.com/cdk/latest/guide/environments.html */
+  for (const host of client){
+    hosts.push(`client-${host}`);
+  }
+  return hosts;
+}
+
+const hosts = convertConfigToHosts(config, client);
+hosts.push('control');
+
+
+new WhiptilAwsStack(app, `${prefix}-WhiptilAwsStack`, {
+  prefix: prefix,
+  publicKey: '<public key>',
+  hostnames: hosts
 });
