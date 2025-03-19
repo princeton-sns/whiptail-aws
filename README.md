@@ -1,14 +1,16 @@
-# Welcome to your CDK TypeScript project
+# Prerequirements
+1. Install `aws-cli` on your machine: https://docs.aws.amazon.com/cli/latest/userguide/getting-started-install.html
+2. Intall `cdk` on your machine: https://docs.aws.amazon.com/cdk/v2/guide/getting_started.html
+3. Configure `aws-cli`: https://docs.aws.amazon.com/cli/latest/userguide/getting-started-quickstart.html
 
-This is a blank project for CDK development with TypeScript.
+# Setup
+0. Change the `config.json`
+1. Run `npm install` in this project
+2. Run `cdk synth`
+3. Run `cdk deploy` to deploy all your resources
+4. If you want to delete the cluster, run `cdk destroy`
 
-The `cdk.json` file tells the CDK Toolkit how to execute your app.
-
-## Useful commands
-
-* `npm run build`   compile typescript to js
-* `npm run watch`   watch for changes and compile
-* `npm run test`    perform the jest unit tests
-* `npx cdk deploy`  deploy this stack to your default AWS account/region
-* `npx cdk diff`    compare deployed stack with current state
-* `npx cdk synth`   emits the synthesized CloudFormation template
+# Network
+Servers have hostname like `server-${shard}-${replica}.${prefix}.whiptail.local`
+Clients have hostname like `client-${index}-0.${prefix}.whiptail.local`
+Control node has hostname  `control.${prefix}.whiptail.local`

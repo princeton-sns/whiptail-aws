@@ -1,37 +1,29 @@
 #!/usr/bin/env node
 import * as cdk from 'aws-cdk-lib';
 import { WhiptilAwsStack } from '../lib/whiptil-aws-stack';
+import * as fs from 'fs';
+import * as path from 'path';
+import * as ec2 from "aws-cdk-lib/aws-ec2";
 
 const app = new cdk.App();
-const prefix = 'Han';
+const configFilePath = path.join(__dirname, '..', 'config.json');
+const configFile = fs.readFileSync(configFilePath, 'utf-8');
+const { shard, client, prefix, publicKey } = JSON.parse(configFile);
 
-const config = {
-  0:[0,1,2],
-  1:[0],
-  2:[0],
-}
-const client  = [0];
-
-function convertConfigToHosts(config: any, client: number[]): string[]{
-  const hosts: string[] = [];
-  for (const shard in config){
-    for (const host of config[shard]){
-      hosts.push(`server-${shard}-${host}`);
-    }
-  }
-
-  for (const host of client){
-    hosts.push(`client-${host}`);
-  }
-  return hosts;
+if (prefix.trim() === '') {
+  throw new Error('Prefix cannot be blank');
 }
 
-const hosts = convertConfigToHosts(config, client);
-hosts.push('control');
+if (publicKey.trim() === '') {
+  throw new Error('Public key cannot be blank');
+}
 
 
 new WhiptilAwsStack(app, `${prefix}-WhiptilAwsStack`, {
   prefix: prefix,
-  publicKey: '<public key>',
-  hostnames: hosts
+  publicKey: publicKey,
+  shardConfig: shard,
+  clientConfig: client,
+  instanceClass: ec2.InstanceClass.C7I,
+  instanceSize: ec2.InstanceSize.LARGE,
 });
