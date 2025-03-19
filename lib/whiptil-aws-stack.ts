@@ -86,6 +86,12 @@ export class WhiptilAwsStack extends cdk.Stack {
       "Allow ICMP access from any IPv4"
     );
 
+    sg.addIngressRule(
+      ec2.Peer.anyIpv4(),
+      ec2.Port.tcpRange(7000, 9999),
+      "Allow RPC"
+    );
+
     const dhcpOptions = new ec2.CfnDHCPOptions(this, "MyDHCPOptions", {
       domainName: `${props.prefix}.whiptail.local`,
       domainNameServers: ["10.0.0.2"],
@@ -102,7 +108,7 @@ export class WhiptilAwsStack extends cdk.Stack {
 
     // Look up the latest Ubuntu 22.04 LTS AMI
     const ubuntuAmi = ec2.MachineImage.genericLinux({
-      "us-east-2": "ami-0884d2865dbe9de4b",
+      "us-east-2": "ami-0b0b9bb191eb744a7",
     });
 
     function createEc2(
@@ -115,6 +121,7 @@ export class WhiptilAwsStack extends cdk.Stack {
       userData.addCommands(
         `echo "Setting hostname to ${hostname}"`,
         `sudo hostnamectl set-hostname ${hostname}`,
+        `echo '' > ~/.ssh/know_hosts `
         // Optionally update /etc/hosts to resolve the hostname locally
       );
 
@@ -162,7 +169,6 @@ export class WhiptilAwsStack extends cdk.Stack {
     Object.entries(props.shardConfig).forEach(([shardId, replicas], index) => {
       replicas.forEach((replica, index) => {
         // Create a user data script to set the hostname
-        const userData = ec2.UserData.forLinux();
         // Launch the EC2 instance with the user data
         const hostname = `server-${shardId}-${replica}`;
         const placement = placementGroups[shardId];

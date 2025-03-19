@@ -1,6 +1,6 @@
 {
-    "prefix":"",
-    "publicKey":"",
+    "prefix":"han",
+    "publicKey":"ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABgQDX+bqa1zlbAzo/6bJ5jT7QEvhNRT19VQnlCiqI8gMc4rsu7GUx/32DcspOvNoSjvGfJ26VRUcFrvi50cmFqd7e/0QLX1JMNWkmpBZH5MOhDU/z+mFWu8Rmlh90rslelACDcGl6JtN0+MqZoQKZVMVsQYuvPAGOP0u4KQT4j8twVPIQvj7qwFaeG8hsQN1cb4RuK3RTVHkyWlBbI4siMeXrvFCwajZIn0ikqU06aXsoXYVn4mMwLAqJ55ipfEDoaAn+ZJCkDLqQQgoDpWSEnFP3h7BHnlPDfXcNsF1n+aFU+dkvG0ay0iWNwTYYwG07Wlux8hPdC7siWwcSrX3IRgKeK6kxv23fgWhvUI5UUW59YfpuQB2DDeFLT+3pUjbTAkr3jidVVAzhhJN6ICDIrXOFSmEhxXwfdw2wI56IeyTVp5xdEjxAszuFW9AamcvVt70WGIi0vShcfNWYJkx4cg1j0Ysnevd+psTvFbOlFfCxq3lUlrdiLYlJU1RDTD/DW2c= lisirrx@lihandeMacBook-Pro.local",
     "shard":{
         "0":[0,1],
         "1":[0,1],
