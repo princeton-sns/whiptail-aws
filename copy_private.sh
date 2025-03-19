@@ -18,14 +18,14 @@ fi
 for server in $SERVERS; do
   echo "Copying ~/.ssh/id_rsa to server $server..."
   # Use scp to copy id_rsa to the remote server's ~/.ssh/ directory
-  scp ~/.ssh/id_rsa "$server:~/.ssh/id_rsa"
+  scp -o StrictHostKeyChecking=no  ~/.ssh/id_rsa "$server:~/.ssh/id_rsa"
   if [ $? -ne 0 ]; then
     echo "Failed to copy to $server!"
     continue
   fi
   echo "Setting file permission to 600 on $server..."
   # Use ssh to set the file permission on the remote server
-  ssh "$server" "chmod 600 ~/.ssh/id_rsa"
+  ssh -o StrictHostKeyChecking=no  "$server" "chmod 600 ~/.ssh/id_rsa"
   if [ $? -eq 0 ]; then
     echo "File permissions successfully set on $server."
   else
